@@ -8,12 +8,12 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.respy</groupId>
-    <artifactId>respy-package-manager</artifactId>
+    <groupId>com.repsy</groupId>
+    <artifactId>repsy-package-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>respy-package-manager</name>
-    <description>Respy file manager</description>
+    <name>repsy-package-manager</name>
+    <description>repsy file manager</description>
     <url/>
     <licenses>
         <license/>
@@ -34,7 +34,7 @@
     <modules>
         <module>file-system-storage</module>
         <module>object-storage</module>
-        <module>respy-package</module>
+        <module>repsy-package</module>
         <module>storage-api</module>
     </modules>
 

@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.respy</groupId>
-		<artifactId>respy-package-manager</artifactId>
+		<groupId>com.repsy</groupId>
+		<artifactId>repsy-package-manager</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -47,7 +47,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.respy</groupId>
+			<groupId>com.repsy</groupId>
 			<artifactId>storage-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

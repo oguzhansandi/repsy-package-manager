@@ -7,9 +7,9 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 
-COPY --from=build /app/respy-package/target/respy-package-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/repsy-package/target/repsy-package-0.0.1-SNAPSHOT.jar app.jar
 
 
-COPY respy-package/src/main/resources/application.properties ./application.properties
+COPY repsy-package/src/main/resources/application.properties ./application.properties
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

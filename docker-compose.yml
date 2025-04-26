@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     image: postgres:14
-    container_name: respy-postgres
+    container_name: repsy-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1
@@ -11,23 +11,23 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - respy-network
+      - repsy-network
 
   minio:
     image: quay.io/minio/minio
     container_name: minio
     environment:
-      MINIO_ROOT_USER: respyadmin
-      MINIO_ROOT_PASSWORD: respyproject
+      MINIO_ROOT_USER: repsyadmin
+      MINIO_ROOT_PASSWORD: repsyproject
     ports:
       - "9000:9000"
       - "9001:9001"
     command: server /data --console-address ":9001"
     networks:
-      - respy-network
+      - repsy-network
 
-  respy-app:
-    container_name: respy-app
+  repsy-app:
+    container_name: repsy-app
     build:
       context: .
       dockerfile: Dockerfile
@@ -37,14 +37,14 @@ services:
       - postgres
       - minio
     networks:
-      - respy-network
+      - repsy-network
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      # SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: respy_package_manager
+      # SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: repsy_package_manager
 
 networks:
-  respy-network:
+  repsy-network:
     driver: bridge
