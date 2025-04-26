@@ -5,11 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.respy</groupId>
-        <artifactId>respy-package</artifactId>
+        <artifactId>respy-package-manager</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>storage-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>storage-api</name>
+    <description>Common interface module for storage strategies</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,4 +20,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>
