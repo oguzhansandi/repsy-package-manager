@@ -1,24 +1,29 @@
 # 📦 Respy Package Manager
 
-Bu proje, **Spring Boot**, **PostgreSQL**, **MinIO** ve **Docker** kullanılarak hazırlanmış bir paket yönetim sistemidir.  
-Proje kapsamında dosya yükleyebilir (deployment) ve yüklenen dosyaları indirebilirsiniz (download).
+Bu proje, **Spring Boot**, **PostgreSQL**, **MinIO**, **Docker** ve **Maven** kullanılarak hazırlanmış bir **paket yönetim sistemidir**.  
+Proje kapsamında ayrıca **Repsy.io** üzerinden özel bir Maven Repository kullanılmış ve storage modülleri deploy edilmiştir.
+
+Bu sistem ile:
+- Dosya yükleyebilir (**deployment**)
+- Yüklenen dosyaları indirebilirsiniz (**download**).
 
 ---
 
 ## 🚀 Kullanılan Teknolojiler
-- Java 17
+- Java 17 (LTS)
 - Spring Boot 3
 - PostgreSQL 14
 - MinIO (S3 Compatible Object Storage)
 - Docker & Docker Compose
 - Hibernate ORM
 - Maven
+- Repsy (Private Maven Repository)
 
 ---
 
 ## 🛠️ Kurulum Adımları
 
-1. **Proje klasörüne girin**:
+1. **Proje klasörünüze girin**:
    ```bash
    cd respy-package
    ```
@@ -44,9 +49,15 @@ Proje kapsamında dosya yükleyebilir (deployment) ve yüklenen dosyaları indir
     - Kullanıcı Adı: `postgres`
     - Şifre: `1`
 
+5. **Storage Stratejisini Belirleyin**:
+   `application.properties` dosyasından veya ortam değişkeni ile seçebilirsiniz:
+   ```properties
+   storage.strategy=object-storage  # veya file-system
+   ```
+
 ---
 
-## 📑 API Kullanımı
+## 💑 API Kullanımı
 
 ### 📤 Paket Yükleme (Deployment)
 
@@ -54,7 +65,7 @@ Proje kapsamında dosya yükleyebilir (deployment) ve yüklenen dosyaları indir
   `POST /api/package/{packageName}/{version}`
 
 - **Açıklama**:  
-  Belirtilen isim ve versiyonla bir paket (rep + meta) dosyası yükler.
+  Belirtilen isim ve versiyonla bir paket (`package.rep` ve `meta.json`) yükler.
 
 - **Örnek cURL Komutu**:
   ```bash
@@ -74,8 +85,8 @@ Proje kapsamında dosya yükleyebilir (deployment) ve yüklenen dosyaları indir
   Belirtilen paketin dosyasını indirir.
 
 - **Örnek**:
-  ```
-  GET http://localhost:8080/api/package/mypackage/1.0.0/sample.rep
+  ```bash
+  curl -O http://localhost:8080/api/package/mypackage/1.0.0/sample.rep
   ```
 
 ---
@@ -97,6 +108,79 @@ respy-package/
 │   │   │   │   ├── storage/
 │   │   │   ├── resources/
 │   ├── pom.xml
+├── file-system-storage/   # Storage Strategy 1
+├── object-storage/        # Storage Strategy 2
+├── storage-api/            # Ortak Interface'ler
+```
+
+---
+
+## 🏦 Storage Yapısı
+
+- **File System Storage**: Paketler yerel dosya sistemine kaydedilir.
+- **Object Storage**: Paketler MinIO nesne depolamaya kaydedilir.
+- **Storage API**: Ortak interface yapılarını barındırır.
+
+Storage stratejisi çalışma zamanında `application.properties` ya da ortam değişkeniyle belirlenebilir.
+
+---
+
+## 🔄 Repsy Kullanımı
+
+Projede 3 adet modül özel Maven repository olan **Repsy.io**'ya deploy edilmiştir:
+
+| Modul              | Artifact Adı          | Versiyon       |
+|:-------------------|:----------------------|:--------------|
+| storage-api         | `storage-api`          | 0.0.1-SNAPSHOT |
+| file-system-storage | `file-system-storage`  | 0.0.1-SNAPSHOT |
+| object-storage      | `object-storage`       | 0.0.1-SNAPSHOT |
+
+### Maven Deploy Yapılandırması
+
+`.m2/settings.xml` dosyasına Repsy bilgileriniz eklenmelidir:
+
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>repsy</id>
+      <username>oguzhansandi</username>
+      <password>PASSWORD</password>
+    </server>
+  </servers>
+</settings>
+```
+
+**pom.xml** içinde `distributionManagement` tanımlaması:
+
+```xml
+<distributionManagement>
+  <repository>
+    <id>repsy</id>
+    <name>My Private Maven Repository on Repsy</name>
+    <url>https://repo.repsy.io/mvn/oguzhansandi/repsy-storage-module/</url>
+  </repository>
+</distributionManagement>
+```
+
+Deploy etmek için:
+
+```bash
+mvn clean deploy
+```
+
+### Maven Download Repository Ayarı
+
+Projede bu modülleri çekebilmek için repositories ayarı:
+
+```xml
+<repositories>
+  <repository>
+    <id>repsy</id>
+    <name>My Private Maven Repository on Repsy</name>
+    <url>https://repo.repsy.io/mvn/oguzhansandi/repsy-storage-module/</url>
+  </repository>
+</repositories>
 ```
 
 ---
@@ -104,8 +188,9 @@ respy-package/
 ## 📝 Notlar
 - İlk çalıştırmada `packages` adında bir MinIO bucket'ı otomatik oluşturulur.
 - Yüklenen dosyalar hem MinIO'ya hem PostgreSQL veritabanına kaydedilir.
-- Proje hem **file-system-storage** hem **object-storage** stratejisine uygun geliştirilmiştir.  
-  (Şu anda **object-storage** yani MinIO kullanılıyor.)
+- Proje hem **file-system-storage** hem **object-storage** stratejisine uygundur.
+- API guideline, HTTP metotları ve response kodları en iyi uygulamalara uygundur.
+- Uygulama Docker imajı olarak paketlenmiş ve Repsy Public Docker Repository'ye yüklenmiştir.
 
 ---
 
