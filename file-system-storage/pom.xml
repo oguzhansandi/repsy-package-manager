@@ -27,6 +27,15 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>repsy</id>
+			<name>My Private Maven Repository on Repsy</name>
+			<url>https://repo.repsy.io/mvn/oguzhansandi/repsy-storage-module</url>
+		</repository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

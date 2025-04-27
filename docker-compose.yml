@@ -28,9 +28,7 @@ services:
 
   repsy-app:
     container_name: repsy-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: repo.repsy.io/oguzhansandi/repsy-package-manager:latest   # 👈 build yerine image yazıyoruz
     ports:
       - "8080:8080"
     depends_on:
@@ -43,7 +41,6 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      # SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: repsy_package_manager
 
 networks:
   repsy-network:

@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EntityScan(basePackages = {"com.respy"})
-@ComponentScan(basePackages = {"com.respy"})
-@EnableJpaRepositories(basePackages = {"com.respy"})
-@SpringBootApplication(scanBasePackages = "com.respy")
+@EntityScan(basePackages = {"com.repsy"})
+@ComponentScan(basePackages = {"com.repsy"})
+@EnableJpaRepositories(basePackages = {"com.repsy"})
+@SpringBootApplication(scanBasePackages = "com.repsy")
 public class RespyPackageManagerApplicationStarter {
 
 	public static void main(String[] args) {
